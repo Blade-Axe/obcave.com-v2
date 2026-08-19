@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head'); %>
+<body>
+    <main class="index-content">
+        <div id="content-wrap">
+            <article id="content-body">
+                <%- include('partials/nav'); %>
+                <main class="page-content">
+                    <%- include('partials/dynamic-form', { config: config.auth.signUp }) %>
+                </main>
+            </article>
+            <%- include('partials/footer'); %>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,4 +1,5 @@
 const path = require("node:path");
+const { title } = require("node:process");
 
 
 /**
@@ -21,7 +22,11 @@ const routes = {
   about: "/about",
   obstitution: "/obstitution",
   members: "/members",
-  achievements: "/achievements"
+  achievements: "/achievements",
+  auth_sign_in: "/auth/sign-in",
+  auth_sign_up: "/auth/sign-up",
+  auth_sign_out: "/auth/sign-out",
+  test: "/test"
 }
 
 const pages = {
@@ -30,6 +35,9 @@ const pages = {
   members: { path: routes.members, title: 'obcave - members', view: 'members', showInNav: true, navLabel: 'members' },
   about: { path: routes.about, title: 'obcave - about', view: 'about', showInNav: true, navLabel: 'about' },
   obstitution: { path: routes.obstitution, title: 'obcave - obstitution', view: 'obstitution', showInNav: true, navLabel: 'obstitution' },
+  auth_sign_in: { path: routes.auth_sign_in, title: 'obID - sign-in', view: 'sign-in' },
+  auth_sign_up: { path: routes.auth_sign_up, title: 'obID - sign-up', view: 'sign-up' },
+  test: { path: routes.test, title: 'test', view: 'test' },
 };
 
 module.exports = {

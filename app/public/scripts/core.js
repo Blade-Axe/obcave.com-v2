@@ -8,6 +8,8 @@
     e.stopPropagation();
     const isOpen = navMenu.classList.toggle('active');
     hamburger.setAttribute('aria-expanded', String(isOpen));
+    hamburger.querySelector('i').classList.toggle('hn-bars', !isOpen);
+    hamburger.querySelector('i').classList.toggle('hn-times', isOpen)
   });
 
   /* Close when clicking outside */
@@ -15,6 +17,8 @@
     if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
       navMenu.classList.remove('active');
       hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.querySelector('i').classList.remove('hn-times');
+      hamburger.querySelector('i').classList.add('hn-bars');
     }
   });
 
@@ -29,7 +33,7 @@
     }, 250);
 
     /* Reset menu when leaving mobile breakpoint */
-    if (window.innerWidth > 1161) {
+    if (window.innerWidth > 1130) {
       navMenu.classList.remove('active');
       hamburger.setAttribute('aria-expanded', 'false');
     }

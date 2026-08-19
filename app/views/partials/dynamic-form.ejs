@@ -1,0 +1,42 @@
+<!-- views/partials/dynamic-form.ejs -->
+<div class="modular-container">
+    <div class="modular-card">
+        <h1 class="modular-title"><%= config.title %></h1>
+        <p class="modular-subtitle"><%= config.subtitle %></p>
+        
+        <!-- Error display block -->
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="form-error-alert">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="<%= config.actionPath %>" method="POST" class="dynamic-form" <% if (config.enctype) { %> enctype="<%= config.enctype %>" <% } %>>
+            <% config.fields.forEach(field => { %>
+                <div class="form-group">
+                    <label for="<%= field.id %>"><%= field.label %></label>
+                    
+                    <!-- Fixed attribute injection to avoid HTML escaping bugs -->
+                    <input 
+                        type="<%= field.type %>" 
+                        id="<%= field.id %>" 
+                        name="<%= field.id %>" 
+                        <% if (field.placeholder) { %> placeholder="<%= field.placeholder %>" <% } %>
+                        <% if (field.step) { %> step="<%= field.step %>" <% } %>
+                        <% if (field.accept) { %> accept="<%= field.accept %>" <% } %>
+                        <% if (field.value) { %> value="<%= field.value %>" <% } %>
+                        <% if (field.required) { %> required <% } %>
+                    >
+                </div>
+            <% }); %>
+            
+            <button type="submit" class="btn-primary"><%= config.submitLabel %></button>
+        </form>
+
+        <% if (config.altLink) { %>
+            <div class="modular-alt-link">
+                <%= config.altLink.text %> <a href="<%= config.altLink.path %>"><%= config.altLink.label %></a>
+            </div>
+        <% } %>
+    </div>
+</div>

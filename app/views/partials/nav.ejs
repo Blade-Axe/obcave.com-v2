@@ -2,7 +2,7 @@
     <div id="nav-elements" class="unselectable">
         <div class="nav-left">
             <button type="button" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu-container">
-                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                <i class="hn hn-bars" aria-hidden="true"></i>
             </button>
             <label id="brand-label" class="brand unselectable">
                 <a id="brand-link" class="brand-link <%= currentPath === siteConfig.nav.brand.path ? 'active' : '' %>" href="<%= siteConfig.nav.brand.path %>">
@@ -10,6 +10,9 @@
                     <span><%= siteConfig.nav.brand.label %></span>
                 </a>
             </label>
+            <button type="button" id="account-btn" aria-label="Toggle account menu" aria-expanded="false" aria-controls="nav-menu-container">
+                <i class="hn hn-cog" aria-hidden="true"></i>
+            </button>
         </div>
         <div id="nav-menu-container">
             <ul>
