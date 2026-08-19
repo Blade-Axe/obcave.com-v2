@@ -58,7 +58,7 @@ module.exports = {
     brand: {
         label: "obcave",
         path: routes.home,
-        logoSrc: "./assets/images/logo.png"
+        logoSrc: "/assets/images/logo.png"
     },
     items: Object.entries(pages).filter(([, page]) => page.showInNav).map(([key, page]) => ({
       id: `${key}-link`,
@@ -67,4 +67,28 @@ module.exports = {
     })),
   },
   pages,
-};
+  auth: {
+    signIn: {
+      title: 'Sign in',
+      subtitle: 'Welcome back.',
+      actionPath: routes.auth_sign_in,
+      submitLabel: 'Sign in',
+      fields: [
+        { id: 'email', label: 'Email', type: 'email', required: true },
+        { id: 'password', label: 'Password', type: 'password', required: true },
+      ],
+      altLink: { text: 'No account?', label: 'Sign up', path: routes.auth_sign_up },
+    },
+    signUp: {
+      title: 'Sign up',
+      subtitle: 'Create an account.',
+      actionPath: routes.auth_sign_up,
+      submitLabel: 'Sign up',
+      fields: [
+        { id: 'email', label: 'Email', type: 'email', required: true },
+        { id: 'password', label: 'Password', type: 'password', required: true },
+      ],
+      altLink: { text: 'Have an account?', label: 'Sign in', path: routes.auth_sign_in },
+    },
+  },
+}

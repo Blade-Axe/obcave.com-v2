@@ -19,6 +19,7 @@
 const siteConfig = require('../config/site.config');
 
 module.exports = function configMiddleware(req, res, next) {
+  res.locals.config = require('../config/site.config');
   res.locals.siteConfig = siteConfig;
   res.locals.currentPath = req.path;
   res.locals.user = req.session.user || null;

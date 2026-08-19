@@ -8,7 +8,6 @@ const configMiddleware = require('./middleware/config.middleware');
 const { requireAuth, requireAdmin } = require('./middleware/auth.middleware');
 const app = express();
 const bcrypt = require('bcrypt');
-const multer = require('multer');
 
 // Database
 const db = require('./db/db.config.js');
