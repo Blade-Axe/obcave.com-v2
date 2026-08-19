@@ -1,0 +1,404 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400;500;600;700;800;900&display=swap');
+@view-transition{
+    navigation: auto;
+}
+:root{
+  /* Base */
+  --color-black: black;
+  --color-white: white;
+
+  /* Core theme */
+  --text-colour: var(--color-black);
+  --text-colour-contrast: var(--color-white);
+  --background-colour: #1b1b1c;
+
+  /* Nav surface / glass */
+  --nav-background: rgba(161, 6, 6, 0.7);
+  --nav-background-mobile: rgba(116, 116, 116, 0.87);
+  --nav-pill-background: rgba(0, 0, 0, 0.55);
+  --nav-pill-hover: rgba(0, 0, 0, 0.8);
+  --nav-pill-highlight: rgba(255, 255, 255, 0.2);
+  --nav-accent: #ebdca4;
+  --nav-border-shadow: rgba(0, 0, 0, 0.7);
+  --nav-glass-edge: rgba(255, 255, 255, 0.99);
+  --nav-glass-inner-highlight: rgba(255, 255, 255, 0.98);
+  --nav-glass-sheen-light: rgba(255, 255, 255, 0.4);
+  --nav-glass-sheen-dark: rgba(0, 0, 0, 0.1);
+  --nav-glass-base: hsla(0, 7%, 24%, 0.541);
+
+  /* Brand / link text */
+  --nav-brand-text: var(--color-white);
+  --nav-brand-text-shadow: rgba(0, 0, 0, 0.8);
+  --nav-link-text: rgba(0, 0, 0, 0.8);
+  --nav-link-text-shadow: rgba(255, 255, 255, 0.8);
+  --nav-link-background: rgba(255, 255, 255, 0.548);
+  --nav-button-surface-top: rgba(255, 255, 255, 0.88);
+  --nav-button-surface-bottom: rgba(255, 255, 255, 0.62);
+  --nav-button-inset-highlight: rgba(255, 255, 255, 0.6);
+  --nav-button-drop-shadow: rgba(0, 0, 0, 0.15);
+
+  /* Hover state — red accent*/
+  --nav-hover-glow: #ff4d5e;
+  --nav-hover-glow-shadow: rgba(247, 29, 73, 0.5);
+  --nav-hover-gradient-light: #d9405f;
+  --nav-hover-gradient-dark: #6e0f28;
+  --nav-hover-text: var(--color-white);
+  --nav-hover-text-shadow: rgba(0, 0, 0, 0.4);
+
+  /* Active state — red accent */
+  --nav-active-red: #f71d49;
+  --nav-active-red-dark: #750e23;
+  --nav-active-text: var(--color-white);
+
+  /* Active + hover state — red accent*/
+  --nav-active-hover-glow: #fff;
+  --nav-active-hover-gradient-light: #888;
+  --nav-active-hover-gradient-dark: #575757;
+
+  /* Footer */
+  --footer-background: #2b2a2a;
+
+  /* Misc */
+  --gradient-background: linear-gradient(135deg, rgba(255, 255, 255, 0.356) 10%);
+  --black-02-box-shadow: rgba(0, 0, 0, 0.2);
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html{
+  height: 100%;
+}
+body{
+  height: 100%;
+  font-family: "Press Start 2P", system-ui;
+  color: var(--text-colour);
+  background-color: var(--background-colour);
+}
+main{
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#content-wrap{
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+#content-body{
+  flex: 1 0 auto;
+}
+
+/* === Nav Bar Aero Window Styles === */
+nav {
+    margin: 30px;
+    position: sticky;
+    top: 20px;
+    z-index: 999;
+    
+    /* Aero glass structure */
+    border: 1px solid var(--nav-border-shadow);
+    border-radius: 60px;
+    box-shadow:
+        2px 2px 10px 1px var(--nav-border-shadow),
+        inset 0 0 0 1px var(--nav-glass-inner-highlight);
+    background: transparent;
+}
+nav::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border-radius: 60px;
+    background:
+        linear-gradient(to right, var(--nav-glass-sheen-light), var(--nav-glass-sheen-dark), var(--nav-glass-sheen-light)),
+        var(--nav-glass-base);
+    box-shadow: inset 0 0 0 1px var(--nav-glass-edge);
+    opacity: 0.8;
+}
+nav::after {
+    content: "";
+    position: absolute;
+    z-index: -10;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border-radius: 60px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+#nav-elements{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    padding: 10px 20px;
+}
+#nav-menu-container{
+    position: static; 
+    transform: none;  
+    margin-left: 20px; /* Moving the Nav Elements to the left */
+    margin-right: auto; 
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.nav-left{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+nav label.brand a {
+    text-decoration: none;
+    list-style: none;
+    color: var(--nav-brand-text);
+    text-shadow: 0 2px 5px var(--nav-brand-text-shadow); /* Better contrast against aero glass */
+    font-weight: 700;
+    font-size: 23px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    gap: 12px;
+}
+nav label.brand a:hover{
+    color: #ccc;
+}
+nav label.brand a.active{
+    color: var(--nav-active-hover-glow);
+}
+.nav-logo {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* === Nav Interlocking Aero Elements: ( Item 1 ) ) Item 2 ) === */
+nav ul{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+nav ul li{
+    margin: 0;
+    margin-left: -23px; /* Overlap by precisely the radius curve */
+    position: relative;
+}
+/* Ensure earlier items sit on top. 
+   Because border-radius naturally clips hitboxes, this setup 
+   passes mouse events falling outside Item 1's right curve perfectly onto Item 2! */
+nav ul li:nth-child(1) { z-index: 20; }
+nav ul li:nth-child(2) { z-index: 19; }
+nav ul li:nth-child(3) { z-index: 18; }
+nav ul li:nth-child(4) { z-index: 17; }
+nav ul li:nth-child(5) { z-index: 16; }
+nav ul li:nth-child(6) { z-index: 15; }
+nav ul li:nth-child(7) { z-index: 14; }
+nav ul li:nth-child(8) { z-index: 13; }
+nav ul li:nth-child(9) { z-index: 12; }
+nav ul li:nth-child(10) { z-index: 11; }
+
+nav ul li:first-child {
+    margin-left: 0;
+}
+nav ul li a{
+    transition: all 0.2s ease;
+    height: 46px; /* Exactly 2x the 23px border-radius */
+    border-radius: 0 23px 23px 0; /* Convex right side */
+    padding: 0 25px 0 40px; /* Deeper padding on left to compensate for cutout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Aero button core styling */
+    color: var(--nav-link-text);
+    font-weight: 600;
+    font-size: 18px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 var(--nav-link-text-shadow);
+        background: linear-gradient(
+        var(--nav-button-surface-top),
+        var(--nav-button-surface-bottom)
+    );
+    box-shadow: inset 0 0 0 1px var(--nav-button-inset-highlight), 0 2px 4px var(--nav-button-drop-shadow);
+    
+    /* Concave cutout mask perfectly matching previous element's right edge */
+    -webkit-mask-image: radial-gradient(circle at 0 50%, transparent 25px, black 25.5px);
+    mask-image: radial-gradient(circle at 0 50%, transparent 25px, black 25.5px);
+}
+nav ul li:first-child a{
+    border-radius: 23px; /* Full rounded pill for the first element */
+    padding-left: 25px;
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+nav ul li a:hover{
+    background:
+        radial-gradient(circle at bottom, var(--nav-hover-glow), transparent 65%),
+        linear-gradient(var(--nav-hover-gradient-light) 50%, var(--nav-hover-gradient-dark) 50%);
+    box-shadow: inset 0 0 0 1px var(--nav-glass-inner-highlight);
+    color: var(--nav-hover-text);
+    text-shadow: 0 1px 1px var(--nav-hover-text-shadow);
+    text-decoration: none;
+}
+.nav-link{
+    background-color: var(--nav-link-background);
+    position: relative;
+}
+.nav-link.active{
+    background:
+        radial-gradient(circle at bottom, transparent 65%),
+        linear-gradient(var(--nav-active-red) 50%, var(--nav-active-red-dark) 50%);
+    box-shadow: inset 0 0 0 1px var(--nav-glass-inner-highlight);
+    color: var(--nav-active-text);
+    text-shadow: 1 3px 3px var(--nav-hover-text-shadow);
+    text-decoration: none;
+}
+.nav-link.active:hover{
+    background:
+        radial-gradient(circle at bottom, var(--nav-active-hover-glow), transparent 65%),
+        linear-gradient(var(--nav-active-hover-gradient-light) 50%, var(--nav-active-hover-gradient-dark) 50%);
+}
+
+.fa-solid.fa-bars{
+    display: none;
+}
+#hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-colour-contrast);
+}
+#hamburger i {
+    font-size: 40px;
+    display: block;
+    pointer-events: none; 
+}
+
+.no-anim #nav-menu-container,
+.no-anim nav * {
+    transition: none !important;
+    animation: none !important;
+}
+footer{
+  position: static;
+  flex-shrink: 0;
+  min-height: 5rem;
+  padding: 16px;
+  width: 100%;
+  background-color: var(--footer-background);
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-colour-contrast);
+}
+
+@media only screen and (max-width:1161px){
+    .nav-link{
+        border: none;
+        position: relative;
+    }
+    .nav-link.active{
+        border: none;
+        background-color: var(--nav-pill-background);
+        border-radius: 12px;
+    }
+    #hamburger {
+        cursor: pointer;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        right: 20px;
+        padding: 10px; 
+        z-index: 1000;
+    }
+    #hamburger:hover {
+        transition: 0.2s;
+        background-color: var(--black-02-box-shadow);
+        border-radius: 12px;
+    }
+    nav{
+        box-shadow: none; 
+        background-color: transparent;
+        padding: 0px;
+    }
+    nav ul{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 100%;
+        left: 0;
+        width: 100%;          
+        z-index: 999;
+        flex-direction: column;
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+    nav ul li{
+        display: block;
+        margin: 10px 0 !important; /* Disabling horizontal overlap for mobile stacking */
+        z-index: auto !important; /* <--- ADD THIS LINE to reset z-index */
+    }
+    nav ul li a, nav ul li:first-child a {
+        border-radius: 12px !important;
+        padding: 15px !important;
+        height: auto;
+        -webkit-mask-image: none !important;
+        mask-image: none !important;
+        justify-content: center;
+        display: flex;
+    }
+    .nav-left{
+        position: relative;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        border-radius: 0;
+        padding: 15.5px;
+        width: 100%;
+        box-shadow: 2px 2px 10px 1px var(--nav-border-shadow);
+    }
+    #nav-elements{
+        display: flex;
+        padding: 0;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    #nav-menu-container {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        margin-top: 0;
+        background-color: var(--nav-background-mobile);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 4px 6px var(--box-shadow);
+        z-index: 999;
+        visibility: hidden;
+        opacity: 0;
+        flex-direction: column;
+        text-align: center;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        padding-right: 0;
+        margin-left: 0;
+    }
+    #nav-menu-container.active {
+        opacity: 1;
+        visibility: visible;
+        display: flex;
+    }
+    .nav-logo {
+        height: 35px;
+        margin-right: 8px;
+    }
+    nav label.brand a {
+        font-size: 21px; 
+        gap: 8px;
+    }
+}

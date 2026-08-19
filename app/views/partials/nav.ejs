@@ -1,0 +1,28 @@
+<nav>
+    <div id="nav-elements" class="unselectable">
+        <div class="nav-left">
+            <button type="button" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu-container">
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+            </button>
+            <label id="brand-label" class="brand unselectable">
+                <a id="brand-link" class="brand-link <%= currentPath === siteConfig.nav.brand.path ? 'active' : '' %>" href="<%= siteConfig.nav.brand.path %>">
+                    <img src="<%= siteConfig.nav.brand.logoSrc %>" class="nav-logo">
+                    <span><%= siteConfig.nav.brand.label %></span>
+                </a>
+            </label>
+        </div>
+        <div id="nav-menu-container">
+            <ul>
+                <!-- Modular item rendering -->
+                <% siteConfig.nav.items.forEach(function(item) { %>
+                    <li class="nav-item">
+                        <a id="<%= item.id %>" 
+                            class="nav-link <%= currentPath === item.path ? 'active' : '' %>" href="<%= item.path %>">
+                            <%= item.label %>
+                        </a>
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+    </div>
+</nav>

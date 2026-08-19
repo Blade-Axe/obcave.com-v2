@@ -1,0 +1,17 @@
+<section class="hero-section">
+  <div class="hero unselectable">
+    <div class="hero-content">
+
+      <h1 class="hero-title">
+        <%- siteConfig.nopage.titleLines.join('<br>') %>
+      </h1>
+
+      <div class="hero-cta-buttons">
+        <% siteConfig.nopage.cta.forEach(function(btn) { %>
+          <a href="<%= btn.href %>" class="btn-hero"><%= btn.label %></a>
+        <% }) %>
+      </div>
+
+    </div>
+  </div>
+</section>
