@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head'); %>
+<body>
+    <main class="index-content">
+        <div id="content-wrap">
+            <article id="content-body">
+                <%- include('partials/nav'); %>
+                <div id="dashboard-container">
+                    <div id="dashboard-grid">
+                        <%- include('partials/side_panel') %>
+                        <div class="dash-column">
+                            <div class="profile-dash-bar">
+                                <div class="vertical" id="dash-content">
+                                    <div class="profile-dash-bar-row">
+                                        <div class="profile-dash-bar-avatar">
+                                            <img src="<%= user.discordAvatar %>" alt="Avatar">
+                                        </div>
+                                        <div class="profile-dash-bar-info">
+                                            <h1 class="h1-dash-content-profile">Welcome, <%= user.discordUsername %>!</h1>
+                                            <a href="{{ url_for('public_profile', username=session.username) }}">Visit your {{ "private" if user.is_private else "public" }} profile ></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vertical" id="dash-content">
+                                <div class="profile-details">
+                                    <div class="account-field">
+                                        <span class="account-field-label">Email</span>
+                                        <span class="account-field-value"><%= user.email %></span>
+                                    </div>
+                                    <div class="account-field">
+                                        <span class="account-field-label">UUID</span>
+                                        <span class="account-field-value"><%= user.uuid %></span>
+                                    </div>
+                                    <div class="account-field">
+                                        <span class="account-field-label">Discord username</span>
+                                        <span class="account-field-value"><%= user.discordUsername %></span>
+                                    </div>
+
+                                    <form action="/auth/sign-out" method="POST">
+                                        <button type="submit" class="btn-primary">Sign out</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <%- include('partials/footer'); %>
+        </div>
+    </main>
+</body>
+</html>

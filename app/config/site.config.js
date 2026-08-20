@@ -20,7 +20,8 @@ const { title } = require("node:process");
 const routes = {
   home: "/",
   about: "/about",
-  obstitution: "/obstitution",
+  blog: "/oblog",
+  obstitution: "/about/obstitution",
   members: "/members",
   achievements: "/achievements",
   auth_sign_in: "/auth/sign-in",
@@ -28,15 +29,16 @@ const routes = {
   auth_sign_out: "/auth/sign-out",
   auth_discord: "/auth/discord",
   auth_complete_profile: "/auth/complete-profile",
-  account: "/account"
+  dashboard: "/dashboard"
 }
 
 const pages = {
   home:  { path: routes.home,  title: 'obcave - home', view: 'index' },
   achievements: { path: routes.achievements, title: 'obcave - achievements', view: 'achievements', showInNav: true, navLabel: 'achievements' },
   members: { path: routes.members, title: 'obcave - members', view: 'members', showInNav: true, navLabel: 'members' },
+  blog: { path: routes.blog, title: 'obcave - oblog', view: 'blog', showInNav: true, navLabel: 'oblog' },
   about: { path: routes.about, title: 'obcave - about', view: 'about', showInNav: true, navLabel: 'about' },
-  obstitution: { path: routes.obstitution, title: 'obcave - obstitution', view: 'obstitution', showInNav: true, navLabel: 'obstitution' },
+  obstitution: { path: routes.obstitution, title: 'obcave - obstitution', view: 'obstitution', showInNav: false, navLabel: 'obstitution' },
   auth_sign_in: { path: routes.auth_sign_in, title: 'obID - sign-in', view: 'sign-in' },
   auth_sign_up: { path: routes.auth_sign_up, title: 'obID - sign-up', view: 'sign-up' },
   test: { path: routes.test, title: 'test', view: 'test' },
@@ -70,7 +72,7 @@ module.exports = {
     text: {
       theme: "Theme",
       logged_out: "Sign In",
-      logged_in: "Account",
+      logged_in: "Dashboard",
     },
   },
   pages,
@@ -117,5 +119,8 @@ module.exports = {
       discord_must_be_member: 'You must be an obmember to sign up.',
       discord_no_longer_in_server: 'Your linked Discord account is no longer in the server.',
     }
+  },
+  index: {
+    hero: '',
   },
 }

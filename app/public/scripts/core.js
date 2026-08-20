@@ -58,3 +58,38 @@
     }
   });
 })();
+
+const greetingElement = document.getElementById('greeting');
+const currentTime = new Date().getHours();
+const tagElement = document.getElementById('tag');
+let greeting;
+
+if (currentTime < 12) {
+  greeting = 'Good Morning,';
+} else if (currentTime < 18){
+  greeting = 'Good Afternoon,';
+} else {
+  greeting = 'Good Evening,';
+}
+
+greetingElement.textContent = `${greeting}`;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+          if (entry.isIntersecting) {
+              const icon = entry.target;
+              if (icon.dataset.src) {
+                  icon.innerHTML = icon.dataset.src;
+                  delete icon.dataset.src;
+              }
+              observer.unobserve(icon);
+          }
+      });
+  });
+
+  // Observe icons that are below the fold
+  document.querySelectorAll('.icon:not(:nth-child(-n+5))').forEach(icon => {
+      observer.observe(icon);
+  });
+});

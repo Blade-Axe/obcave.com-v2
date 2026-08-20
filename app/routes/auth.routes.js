@@ -53,7 +53,7 @@ router.get('/auth/discord/callback', async (req, res) => {
     const tokenData = await discordService.exchangeCode(code);
     const discordUser = await discordService.getDiscordUser(tokenData.access_token);
 
-    // Guild membership check — required before any account is
+    // Guild membership check — required before any dashboard is
     // touched or created. No DB write happens if this fails.
     const member = await discordService.getGuildMember(discordUser.id);
     if (!member) {
@@ -66,7 +66,7 @@ router.get('/auth/discord/callback', async (req, res) => {
     const existing = await dbGet('SELECT * FROM users WHERE discordId = ?', [discordUser.id]);
 
     if (existing) {
-      // Returning account — re-verified above, so proceed.
+      // Returning dashboard — re-verified above, so proceed.
       if (!existing.emailSet) {
         req.session.pendingUserId = existing.id;
         return res.redirect(routes.auth_complete_profile);
@@ -79,10 +79,10 @@ router.get('/auth/discord/callback', async (req, res) => {
         email: existing.email,
         isAdmin: !!existing.isAdmin,
       };
-      return res.redirect(routes.account);
+      return res.redirect(routes.dashboard);
     }
 
-    // New account — create the identifier and a bare user row.
+    // New dashboard — create the identifier and a bare user row.
     const accountUuid = generateAccountUuid(member.joined_at, discordUser.username);
     const avatarUrl = discordService.getAvatarUrl(discordUser.id, discordUser.avatar);
 
@@ -154,7 +154,7 @@ router.post('/auth/complete-profile', async (req, res) => {
     email: user.email,
     isAdmin: !!user.isAdmin,
   };
-  res.redirect(routes.account);
+  res.redirect(routes.dashboard);
 });
 
 // ── Sign-in with email + password ───────────────────────────────
@@ -196,7 +196,7 @@ router.post('/auth/sign-in', async (req, res) => {
       email: user.email,
       isAdmin: !!user.isAdmin,
     };
-    res.redirect(routes.account);
+    res.redirect(routes.dashboard);
   } catch (err) {
     console.error('Sign-in error:', err);
     res.status(500).render('sign-in', {
@@ -206,8 +206,8 @@ router.post('/auth/sign-in', async (req, res) => {
   }
 });
 
-router.get('/account', requireAuth, (req, res) => {
-  res.render('account', { title: 'obcave - account', user: req.session.user });
+router.get('/dashboard', requireAuth, (req, res) => {
+  res.render('dashboard', { title: 'obcave - dashboard', user: req.session.user });
 });
 
 // ── Sign-out ─────────────────────────────────────────────────────

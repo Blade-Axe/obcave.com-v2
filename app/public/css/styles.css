@@ -11,6 +11,7 @@
   /* Core theme */
   --text-colour: var(--color-black);
   --text-colour-contrast: var(--color-white);
+  --secondary: #2a2a2a;
   --background-colour: #1b1b1c;
 
   /* Nav surface / glass */
@@ -91,6 +92,163 @@ main{
 #content-body{
   flex: 1 0 auto;
 }
+.hero{
+    height: 100%;
+    color: var(--text-colour-contrast);
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+}
+
+#dashboard-container {
+    color: var(--text-colour-contrast);
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+#dashboard-grid {
+    display: flex;
+    flex-direction: column;
+}
+
+#dash-content {
+    overflow: hidden;
+    margin-right: 25px;
+    margin-left: 25px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background-color: var(--secondary);
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    min-height: fit-content;
+}
+
+.side-panel {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 15px;
+    margin-left: 25px;
+    margin-right: 25px;
+    min-height: 200px;
+    height: auto;
+    background-color: var(--secondary);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    box-sizing: border-box;
+}
+
+.side-panel a {
+    margin-left: 5px;
+    text-decoration: none;
+    color: var(--black);
+    padding: 7px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.side-panel a:hover {
+    background-color: var(--tertiary);
+}
+
+.side-panel a.active {
+    background-color: var(--tertiary);
+}
+
+@media (min-width: 1025px) {
+    #dashboard-grid {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .dash-column {
+        min-width: 0; /* Crucial for flex item containment */
+    }
+    
+    .side-panel{
+        flex: 0 0 300px;
+        width: 400px;
+        margin-right: 15px;
+        max-height: fit-content;
+    }
+    
+    #dash-content {
+        flex-grow: 1;
+        width: 100%;
+        margin: 0;
+        margin-right: 25px;
+        margin-bottom: 25px;
+        height: auto;
+    }
+    .profile-dash-bar{
+        margin-bottom: 15px;
+    }
+}
+h3.h3-sidebar{
+    margin: 0px;
+}
+h1.h1-dash-content{
+    margin: 0;
+    padding-bottom: 20px;
+}
+h1.h1-dash-content-profile{
+    margin: 0;
+}
+.dash-column{
+    flex-direction: column;
+    align-items: flex-start;
+    flex-grow: 1;
+    width: 100%;
+    margin: 0;
+    margin-right: 25px;
+    height: auto;
+    margin-bottom: 25px;
+}
+.profile-dash-bar-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+}
+.profile-dash-bar-avatar{
+    padding: 5px;
+}
+.profile-dash-bar-avatar img{
+    margin-right: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    border-radius: 100px;
+    width: 100px;
+    height: 100px;
+}
+.profile-dash-bar-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Vertical centering */
+    height: 100%;             /* Use full height of parent */
+    padding-left: 5px;       /* Add spacing between avatar and text */
+}
+
+.profile-dash-bar-info a {
+    text-decoration: none;
+    margin-top: 5px;
+}
+.profile-dash-bar-info a:hover{
+    text-decoration: underline;
+}
+.side-panel a, .h3-sidebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 
 /* === Nav Bar Aero Window Styles === */
 nav {

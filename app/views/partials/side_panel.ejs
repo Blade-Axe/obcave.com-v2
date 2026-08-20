@@ -1,0 +1,38 @@
+<div class="side-panel">
+    <h3 class="h3-sidebar">
+        Dashboard
+    </h3>
+    <a href="<%= siteConfig.nav.routes.dashboard %>" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
+        <i class="hn hn-grid-solid"></i>
+        Overview
+    </a>
+    <a href="<%= siteConfig.nav.routes.edit_profile %>" class="{% if request.endpoint == 'edit_profile' %}active{% endif %}">
+        <i class="hn hn-pen-solid"></i>
+        Edit Profile
+    </a>
+    <a href="<%= siteConfig.nav.routes.edit_privacy %>" class="{% if request.endpoint == 'edit_privacy' %}active{% endif %}">
+        <i class="hn hn-glasses-solid"></i>
+        Privacy
+    </a>
+    <a href="<%= siteConfig.nav.routes.view_badges %>" class="{% if request.endpoint == 'badge_dashboard' %}active{% endif %}">
+        <i class="hn hn-clipboard-solid"></i>
+        Your Badges
+    </a>
+    <a href="{{ url_for('public_profile', username=session.username) }}" class="{% if request.endpoint == 'public_profile' %}active{% endif %}">
+        <i class="hn hn-user-solid"></i>
+        View Profile
+    </a>
+    <% if (typeof user !== 'undefined' && user) { %>
+    <h3 class="h3-sidebar">
+        Admin
+    </h3>
+    <a href="<%= siteConfig.nav.routes.admin_manage_achievements %>" class="{% if request.endpoint == 'admin_badges' %}active{% endif %}">
+        <i class="hn hn-clipboard-solid"></i>
+        Manage Badges
+    </a>
+    <a href="<%= siteConfig.nav.routes.admin_manage_users %>" class="{% if request.endpoint == 'admin_users' %}active{% endif %}">
+        <i class="hn hn-users-crown-solid"></i>
+        Manage Users
+    </a>
+    <% } %>
+</div>

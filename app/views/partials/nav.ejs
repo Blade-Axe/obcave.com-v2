@@ -19,18 +19,18 @@
                     <% } %>
                 </button>
                 <div id="account-menu-container">
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <a href="<%= siteConfig.nav.routes.dashboard %>" class="btn-primary account-menu-signin"><%= siteConfig.nav.text.logged_in %></a>
+                    <% } else { %>
+                        <a href="<%= siteConfig.nav.routes.auth_sign_in %>" class="btn-primary account-menu-signin"><%= siteConfig.nav.text.logged_out %></a>
+                    <% } %>
+                    <div class="account-menu-divider"></div>
                     <div class="account-menu-section">
                         <span class="account-menu-heading"><%= siteConfig.nav.text.theme %></span>
                         <div class="theme-swatches">
                             <!-- Theme options go here later -->
                         </div>
                     </div>
-                    <div class="account-menu-divider"></div>
-                    <% if (typeof user !== 'undefined' && user) { %>
-                        <a href="<%= siteConfig.nav.routes.account %>" class="btn-primary account-menu-signin"><%= siteConfig.nav.text.logged_in %></a>
-                    <% } else { %>
-                        <a href="<%= siteConfig.nav.routes.auth_sign_in %>" class="btn-primary account-menu-signin"><%= siteConfig.nav.text.logged_out %></a>
-                    <% } %>
                 </div>
             </div>
         </div>
