@@ -7,7 +7,7 @@
             <article id="content-body">
                 <%- include('partials/nav'); %>
                 <main class="page-content">
-                    <%- include('partials/dynamic-form', { config: config.auth.signIn, error: typeof error !== 'undefined' ? error : null }) %>
+                    <%- include('partials/dynamic-form', { config: config.auth.completeProfile, error: typeof error !== 'undefined' ? error : null }) %>
                 </main>
             </article>
             <%- include('partials/footer'); %>

@@ -3,7 +3,7 @@ const siteConfig = require('../config/site.config');
 const routes = siteConfig.nav.routes;
 
 function requireAuth(req, res, next) {
-  if (!req.session.user) return res.redirect(routes.home);
+  if (!req.session.user) return res.redirect(routes.auth_sign_in);
   next();
 }
 

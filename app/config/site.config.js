@@ -26,7 +26,9 @@ const routes = {
   auth_sign_in: "/auth/sign-in",
   auth_sign_up: "/auth/sign-up",
   auth_sign_out: "/auth/sign-out",
-  test: "/test"
+  auth_discord: "/auth/discord",
+  auth_complete_profile: "/auth/complete-profile",
+  account: "/account"
 }
 
 const pages = {
@@ -65,30 +67,55 @@ module.exports = {
       label: page.navLabel,
       path: page.path,
     })),
+    text: {
+      theme: "Theme",
+      logged_out: "Sign In",
+      logged_in: "Account",
+    },
   },
   pages,
   auth: {
     signIn: {
       title: 'Sign in',
-      subtitle: 'Welcome back.',
+      subtitle: 'Welcome back to obcave.com',
       actionPath: routes.auth_sign_in,
       submitLabel: 'Sign in',
       fields: [
         { id: 'email', label: 'Email', type: 'email', required: true },
         { id: 'password', label: 'Password', type: 'password', required: true },
       ],
+      oauth: { href: '/auth/discord', label: 'Continue with Discord' },
       altLink: { text: 'No account?', label: 'Sign up', path: routes.auth_sign_up },
     },
     signUp: {
       title: 'Sign up',
-      subtitle: 'Create an account.',
-      actionPath: routes.auth_sign_up,
-      submitLabel: 'Sign up',
-      fields: [
-        { id: 'email', label: 'Email', type: 'email', required: true },
-        { id: 'password', label: 'Password', type: 'password', required: true },
-      ],
+      subtitle: 'Create your obID.',
+      oauth: { href:'/auth/discord', label: 'Continue with Discord' },
       altLink: { text: 'Have an account?', label: 'Sign in', path: routes.auth_sign_in },
     },
+    completeProfile: {
+      title: 'One last step',
+      subtitle: 'Create your @obcave.com email and a password.',
+      actionPath: routes.auth_complete_profile,
+      submitLabel: 'Create your obID!',
+      fields: [
+        { id: 'email', label: 'obcave email', type: 'email', placeholder: 'yourname@obcave.com', required: true },
+        { id: 'password', label: 'Password', type: 'password', required: true },
+      ],
+    },
+    text: {
+      divider: 'or',
+    },
+    error: {
+      generic: 'Something went wrong. Please try again.',
+      expired_session: 'Login request expired or invalid. Please try again.',
+      wrong_pass_email: 'Incorrect email or password.',
+      obid_email_invalid: 'Email must end in @obcave.com.',
+      obid_email_taken: 'That email is already taken.',
+      obid_pass_too_short: 'Password must be at least 16 characters.',
+      discord_oauth: 'Something went wrong talking to Discord. Please try again.',
+      discord_must_be_member: 'You must be an obmember to sign up.',
+      discord_no_longer_in_server: 'Your linked Discord account is no longer in the server.',
+    }
   },
 }

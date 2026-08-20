@@ -22,6 +22,25 @@
     }
   });
 
+  (function () {
+    const btn = document.getElementById('account-btn');
+    const panel = document.getElementById('account-menu-container');
+    if (!btn || !panel) return;
+
+    btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const isOpen = panel.classList.toggle('active');
+        btn.setAttribute('aria-expanded', isOpen);
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!panel.contains(e.target) && e.target !== btn) {
+            panel.classList.remove('active');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
+
   /* Suppress animations during resize */
   let resizeTimer;
   window.addEventListener('resize', function () {

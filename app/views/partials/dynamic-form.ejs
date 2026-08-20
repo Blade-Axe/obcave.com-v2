@@ -11,27 +11,37 @@
             </div>
         <% } %>
 
-        <form action="<%= config.actionPath %>" method="POST" class="dynamic-form" <% if (config.enctype) { %> enctype="<%= config.enctype %>" <% } %>>
-            <% config.fields.forEach(field => { %>
-                <div class="form-group">
-                    <label for="<%= field.id %>"><%= field.label %></label>
-                    
-                    <!-- Fixed attribute injection to avoid HTML escaping bugs -->
-                    <input 
-                        type="<%= field.type %>" 
-                        id="<%= field.id %>" 
-                        name="<%= field.id %>" 
-                        <% if (field.placeholder) { %> placeholder="<%= field.placeholder %>" <% } %>
-                        <% if (field.step) { %> step="<%= field.step %>" <% } %>
-                        <% if (field.accept) { %> accept="<%= field.accept %>" <% } %>
-                        <% if (field.value) { %> value="<%= field.value %>" <% } %>
-                        <% if (field.required) { %> required <% } %>
-                    >
-                </div>
-            <% }); %>
-            
-            <button type="submit" class="btn-primary"><%= config.submitLabel %></button>
-        </form>
+        <% if (config.fields && config.fields.length) { %>
+            <form action="<%= config.actionPath %>" method="POST" class="dynamic-form" <% if (config.enctype) { %> enctype="<%= config.enctype %>" <% } %>>
+                <% config.fields.forEach(field => { %>
+                    <div class="form-group">
+                        <label for="<%= field.id %>"><%= field.label %></label>
+                        <input 
+                            type="<%= field.type %>" 
+                            id="<%= field.id %>" 
+                            name="<%= field.id %>" 
+                            <% if (field.placeholder) { %> placeholder="<%= field.placeholder %>" <% } %>
+                            <% if (field.step) { %> step="<%= field.step %>" <% } %>
+                            <% if (field.accept) { %> accept="<%= field.accept %>" <% } %>
+                            <% if (field.value) { %> value="<%= field.value %>" <% } %>
+                            <% if (field.required) { %> required <% } %>
+                        >
+                    </div>
+                <% }); %>
+                
+                <button type="submit" class="btn-primary"><%= config.submitLabel %></button>
+            </form>
+        <% } %>
+
+        <% if (config.oauth) { %> 
+            <% if (config.fields && config.fields.length) { %>
+                <div class="oauth-divider"><%= siteConfig.auth.text.divider %></div>
+            <% } %>
+            <a href="<%= config.oauth.href %>" class="btn-discord">
+                <i class="hn hn-discord" aria-hidden="true"></i>
+                <span><%= config.oauth.label %></span>
+            </a>
+        <% } %>
 
         <% if (config.altLink) { %>
             <div class="modular-alt-link">

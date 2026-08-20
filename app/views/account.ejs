@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head'); %>
+<body>
+    <main class="index-content">
+        <div id="content-wrap">
+            <article id="content-body">
+                <%- include('partials/nav'); %>
+                <main class="page-content">
+                    <div class="modular-container">
+                        <div class="modular-card account-card">
+                            <img class="account-avatar" src="<%= user.discordAvatar %>" alt="Discord avatar">
+                            <h1 class="modular-title"><%= user.discordUsername %></h1>
+
+                            <div class="account-field">
+                                <span class="account-field-label">Email</span>
+                                <span class="account-field-value"><%= user.email %></span>
+                            </div>
+                            <div class="account-field">
+                                <span class="account-field-label">UUID</span>
+                                <span class="account-field-value"><%= user.uuid %></span>
+                            </div>
+                            <div class="account-field">
+                                <span class="account-field-label">Discord username</span>
+                                <span class="account-field-value"><%= user.discordUsername %></span>
+                            </div>
+
+                            <form action="/auth/sign-out" method="POST">
+                                <button type="submit" class="btn-primary">Sign out</button>
+                            </form>
+                        </div>
+                    </div>
+                </main>
+            </article>
+            <%- include('partials/footer'); %>
+        </div>
+    </main>
+</body>
+</html>
