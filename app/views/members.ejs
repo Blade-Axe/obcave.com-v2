@@ -1,14 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head') %>
+<%- include('partials/head'); %>
 <body>
-  <main class="content">
-    <div id="content-wrap">
-      <%- include('partials/nav') %>
-      <article id="content-body">
-      </article>
-      <%- include('partials/footer') %>
-      </div>
-  </main>
+    <main class="index-content">
+        <div id="content-wrap">
+            <article id="content-body">
+                <%- include('partials/nav'); %>
+                <main class="page-content">
+                    <div class="members-toolbar">
+                        <div class="view-toggle" role="group" aria-label="View mode">
+                            <button type="button" id="view-grid-btn" class="view-toggle-btn active" aria-pressed="true">
+                                <i class="hn hn-grid-solid" aria-hidden="true"></i> Grid
+                            </button>
+                            <button type="button" id="view-list-btn" class="view-toggle-btn" aria-pressed="false">
+                                <i class="hn hn-list-solid" aria-hidden="true"></i> List
+                            </button>
+                        </div>
+                        <form method="GET" action="<%= siteConfig.nav.routes.members %>" class="sort-form">
+                            <label for="sort-select">Sort by</label>
+                            <select id="sort-select" name="sort" onchange="this.form.submit()">
+                                <option value="joined" <%= sort === 'joined' ? 'selected' : '' %>>Join order</option>
+                                <option value="messages_desc" <%= sort === 'messages_desc' ? 'selected' : '' %>>Messages: most first</option>
+                                <option value="messages_asc" <%= sort === 'messages_asc' ? 'selected' : '' %>>Messages: least first</option>
+                            </select>
+                        </form>
+                    </div>
+
+                    <div id="members-container" class="members-grid">
+                        <% members.forEach(member => { %>
+                            <a class="member-card" href="/@<%= member.discordUsername %>">
+                                <img class="member-card-avatar" src="<%= member.discordAvatar %>" alt="<%= member.discordUsername %>">
+                                <span class="member-card-name">@<%= member.discordUsername %></span>
+                                <% if (typeof user !== 'undefined' && user) { %>
+                                    <span class="member-card-messages"><%= member.messageTotal.toLocaleString() %> messages</span>
+                                    <% if (member.altAccountCount > 1) {
+                                        const altCount = member.altAccountCount - 1;
+                                        const pct = Math.round((altCount / member.altAccountCount) * 100);
+                                    %>
+                                        <span class="info-icon" tabindex="0"
+                                              data-tooltip="<%= altCount %> linked duplicate account<%= altCount > 1 ? 's' : '' %>. Assuming an even split across all <%= member.altAccountCount %> linked accounts, they account for an estimated <%= pct %>% of this total. Discord doesn't provide a true per-account breakdown.">i</span>
+                                    <% } %>
+                                <% } %>
+                            </a>
+                        <% }); %>
+                    </div>
+                </main>
+            </article>
+            <%- include('partials/footer'); %>
+        </div>
+    </main>
+
+    <script>
+    (function () {
+        const container = document.getElementById('members-container');
+        const gridBtn = document.getElementById('view-grid-btn');
+        const listBtn = document.getElementById('view-list-btn');
+
+        function setView(view) {
+            container.classList.toggle('members-grid', view === 'grid');
+            container.classList.toggle('members-list', view === 'list');
+            gridBtn.classList.toggle('active', view === 'grid');
+            gridBtn.setAttribute('aria-pressed', view === 'grid');
+            listBtn.classList.toggle('active', view === 'list');
+            listBtn.setAttribute('aria-pressed', view === 'list');
+            localStorage.setItem('membersView', view);
+        }
+
+        gridBtn.addEventListener('click', () => setView('grid'));
+        listBtn.addEventListener('click', () => setView('list'));
+
+        const saved = localStorage.getItem('membersView');
+        if (saved === 'list') setView('list');
+    })();
+    </script>
 </body>
 </html>

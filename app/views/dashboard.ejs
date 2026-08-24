@@ -18,7 +18,7 @@
                                         </div>
                                         <div class="profile-dash-bar-info">
                                             <h1 class="h1-dash-content-profile">Welcome, <%= user.discordUsername %>!</h1>
-                                            <a href="{{ url_for('public_profile', username=session.username) }}">Visit your {{ "private" if user.is_private else "public" }} profile ></a>
+                                            <a href="/@<%= user.discordUsername %>">Visit your public profile ></a>
                                         </div>
                                     </div>
                                 </div>

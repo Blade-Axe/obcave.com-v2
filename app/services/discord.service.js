@@ -59,6 +59,14 @@ async function getGuildMember(discordUserId) {
   return res.json(); // { user, nick, joined_at, roles, ... }
 }
 
+async function getDiscordUserById(discordUserId) {
+  const res = await fetch(`${API}/users/${discordUserId}`, {
+    headers: { Authorization: `Bot ${discordConfig.botToken}` },
+  });
+  if (!res.ok) throw new Error(`Discord user lookup failed: ${res.status}`);
+  return res.json();
+}
+
 function getAvatarUrl(discordId, avatarHash) {
   if (!avatarHash) {
     return 'https://cdn.discordapp.com/embed/avatars/0.png';
@@ -72,5 +80,6 @@ module.exports = {
   exchangeCode,
   getDiscordUser,
   getGuildMember,
+  getDiscordUserById,
   getAvatarUrl,
 };

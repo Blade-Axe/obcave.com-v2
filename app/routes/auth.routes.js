@@ -63,9 +63,20 @@ router.get('/auth/discord/callback', async (req, res) => {
       });
     }
 
-    const existing = await dbGet('SELECT * FROM users WHERE discordId = ?', [discordUser.id]);
+    let existing = await dbGet('SELECT * FROM users WHERE discordId = ?', [discordUser.id]);
 
     if (existing) {
+      const freshAvatar = discordService.getAvatarUrl(discordUser.id, discordUser.avatar);
+      const accountUuid = existing.uuid || generateAccountUuid(member.joined_at, discordUser.username);
+
+      await dbRun(
+        'UPDATE users SET uuid = ?, discordUsername = ?, discordAvatar = ? WHERE id = ?',
+        [accountUuid, discordUser.username, freshAvatar, existing.id]
+      );
+      existing.uuid = accountUuid;
+      existing.discordUsername = discordUser.username;
+      existing.discordAvatar = freshAvatar;
+      
       // Returning dashboard — re-verified above, so proceed.
       if (!existing.emailSet) {
         req.session.pendingUserId = existing.id;

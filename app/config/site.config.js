@@ -34,14 +34,12 @@ const routes = {
 
 const pages = {
   home:  { path: routes.home,  title: 'obcave - home', view: 'index' },
+  members: { path: routes.members, title: 'obcave - members', view: 'members', showInNav: true, navLabel: 'members', dynamic: true },
   achievements: { path: routes.achievements, title: 'obcave - achievements', view: 'achievements', showInNav: true, navLabel: 'achievements' },
-  members: { path: routes.members, title: 'obcave - members', view: 'members', showInNav: true, navLabel: 'members' },
-  blog: { path: routes.blog, title: 'obcave - oblog', view: 'blog', showInNav: true, navLabel: 'oblog' },
   about: { path: routes.about, title: 'obcave - about', view: 'about', showInNav: true, navLabel: 'about' },
   obstitution: { path: routes.obstitution, title: 'obcave - obstitution', view: 'obstitution', showInNav: false, navLabel: 'obstitution' },
   auth_sign_in: { path: routes.auth_sign_in, title: 'obID - sign-in', view: 'sign-in' },
   auth_sign_up: { path: routes.auth_sign_up, title: 'obID - sign-up', view: 'sign-up' },
-  test: { path: routes.test, title: 'test', view: 'test' },
 };
 
 module.exports = {

@@ -31,6 +31,7 @@ app.use(configMiddleware);
 
 // --- ROUTES ---
 app.use('/', require('./routes/auth.routes'));
+app.use('/', require('./routes/members.routes'));
 app.use('/', require('./routes/pages.routes'));
 
 // --- 404 ERROR HANDLING ---

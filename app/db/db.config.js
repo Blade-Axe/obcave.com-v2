@@ -18,8 +18,19 @@ db.serialize(() => {
         discordId TEXT UNIQUE,
         discordUsername TEXT,
         discordAvatar TEXT,
-        emailSet INTEGER DEFAULT 0
+        emailSet INTEGER DEFAULT 0,
+        joinOrder INTEGER,
+        messageTotal INTEGER DEFAULT 0,
+        altAccountCount INTEGER DEFAULT 1
     )`);
+
+    db.run(`CREATE TABLE IF NOT EXISTS discord_alt_ids (
+        altDiscordId TEXT PRIMARY KEY,
+        userId INTEGER NOT NULL,
+        FOREIGN KEY(userId) REFERENCES users(id)
+    )`);
+
 });
+
 
 module.exports = db;

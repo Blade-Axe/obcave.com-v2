@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head'); %>
+<body>
+    <main class="index-content">
+        <div id="content-wrap">
+            <article id="content-body">
+                <%- include('partials/nav'); %>
+                <main class="page-content">
+                    <div class="modular-container">
+                        <div class="modular-card account-card">
+                            <img class="account-avatar" src="<%= member.discordAvatar %>" alt="<%= member.discordUsername %>">
+                            <h1 class="modular-title">@<%= member.discordUsername %></h1>
+
+                            <% if (member.joinOrder) { %>
+                                <div class="account-field">
+                                    <span class="account-field-label">Join order</span>
+                                    <span class="account-field-value">#<%= member.joinOrder %></span>
+                                </div>
+                            <% } %>
+
+                            <% if (typeof user !== 'undefined' && user) { %>
+                                <div class="account-field">
+                                    <span class="account-field-label">Messages sent</span>
+                                    <span class="account-field-value">
+                                        <%= member.messageTotal.toLocaleString() %>
+                                        <% if (member.altAccountCount > 1) {
+                                            const altCount = member.altAccountCount - 1;
+                                            const pct = Math.round((altCount / member.altAccountCount) * 100);
+                                        %>
+                                            <span class="info-icon" tabindex="0"
+                                                  data-tooltip="<%= altCount %> linked duplicate account<%= altCount > 1 ? 's' : '' %>. Assuming an even split across all <%= member.altAccountCount %> linked accounts, they account for an estimated <%= pct %>% of this total. Discord doesn't provide a true per-account breakdown.">i</span>
+                                        <% } %>
+                                    </span>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </main>
+            </article>
+            <%- include('partials/footer'); %>
+        </div>
+    </main>
+</body>
+</html>
