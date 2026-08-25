@@ -121,4 +121,22 @@ module.exports = {
   index: {
     hero: '',
   },
+  dashboard: {
+    header: 'Dashboard',
+    admin_header: 'Admin',
+    overview: 'Overview',
+    edit_profile: 'Edit Profile',
+    your_themes: 'Your Themes',
+    your_oblogs: 'Your oblogs',
+    your_notes: 'Your Notes',
+    your_awards: 'Your Awards',
+    global_stats: 'Global Stats',
+    edit_privacy: 'Edit Privacy',
+    view_profile: 'View Profile',
+    admin_edit_obstitution: 'Edit The obstitution',
+    admin_edit_ts_and_cs: 'Edit T&Cs',
+    admin_edit_privacy_policy: 'Edit Privacy Policy',
+    admin_manage_awards: 'Manage Awards',
+    admin_manage_users: 'Manage Users',
+  },
 }

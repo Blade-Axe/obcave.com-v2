@@ -1,38 +1,31 @@
 <div class="side-panel">
     <h3 class="h3-sidebar">
-        Dashboard
+        <%= siteConfig.dashboard.header %>
     </h3>
     <a href="<%= siteConfig.nav.routes.dashboard %>" class="<%= currentPath === siteConfig.nav.routes.dashboard ? 'active' : '' %>">
-        <i class="hn hn-grid-solid"></i>
-        Overview
+        <i class="hn hn-grid-solid"></i><%= siteConfig.dashboard.overview %>
     </a>
     <a href="<%= siteConfig.nav.routes.edit_profile %>" class="<%= currentPath === siteConfig.nav.routes.edit_profile ? 'active' : '' %>">
-        <i class="hn hn-pen-solid"></i>
-        Edit Profile
+        <i class="hn hn-pen-solid"></i><%= siteConfig.dashboard.edit_profile %>
     </a>
     <a href="<%= siteConfig.nav.routes.edit_privacy %>" class="<%= currentPath === siteConfig.nav.routes.edit_privacy ? 'active' : '' %>">
-        <i class="hn hn-glasses-solid"></i>
-        Privacy
+        <i class="hn hn-glasses-solid"></i><%= siteConfig.dashboard.edit_privacy %>
     </a>
-    <a href="<%= siteConfig.nav.routes.view_badges %>" class="<%= currentPath === siteConfig.nav.routes.view_badges ? 'active' : '' %>">
-        <i class="hn hn-clipboard-solid"></i>
-        Your Badges
+    <a href="<%= siteConfig.nav.routes.view_awards %>" class="<%= currentPath === siteConfig.nav.routes.view_awards ? 'active' : '' %>">
+        <i class="hn hn-clipboard-solid"></i><%= siteConfig.dashboard.your_awards %>
     </a>
     <a href="/@<%= user.discordUsername %>" class="<%= currentPath === ('/@' + user.discordUsername) ? 'active' : '' %>">
-        <i class="hn hn-user-solid"></i>
-        View Profile
+        <i class="hn hn-user-solid"></i><%= siteConfig.dashboard.view_profile %>
     </a>
     <% if (typeof user !== 'undefined' && user && user.isAdmin) { %>
     <h3 class="h3-sidebar">
-        Admin
+        <%= siteConfig.dashboard.admin_header %>
     </h3>
     <a href="<%= siteConfig.nav.routes.admin_manage_achievements %>" class="<%= currentPath === siteConfig.nav.routes.admin_manage_achievements ? 'active' : '' %>">
-        <i class="hn hn-clipboard-solid"></i>
-        Manage Badges
+        <i class="hn hn-clipboard-solid"></i><%= siteConfig.dashboard.admin_manage_awards %>
     </a>
     <a href="<%= siteConfig.nav.routes.admin_manage_users %>" class="<%= currentPath === siteConfig.nav.routes.admin_manage_users ? 'active' : '' %>">
-        <i class="hn hn-users-crown-solid"></i>
-        Manage Users
+        <i class="hn hn-users-crown-solid"></i><%= siteConfig.dashboard.admin_manage_users %>
     </a>
     <% } %>
 </div>
