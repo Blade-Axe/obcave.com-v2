@@ -31,6 +31,7 @@
                             <a class="member-card" href="/@<%= member.discordUsername %>">
                                 <img class="member-card-avatar" src="<%= member.discordAvatar %>" alt="<%= member.discordUsername %>">
                                 <span class="member-card-name">@<%= member.discordUsername %></span>
+                                <span class="member-card-join">#<%= member.joinOrder %></span>
                                 <% if (typeof user !== 'undefined' && user) { %>
                                     <span class="member-card-messages"><%= member.messageTotal.toLocaleString() %> messages</span>
                                     <% if (member.altAccountCount > 1) {

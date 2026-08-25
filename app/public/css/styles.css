@@ -16,7 +16,7 @@
 
   /* Nav surface / glass */
   --nav-background: rgba(161, 6, 6, 0.7);
-  --nav-background-mobile: var(--footer-background);
+  --nav-background-mobile: var(--nav-glass-sheen-dark);
   --nav-pill-background: rgba(0, 0, 0, 0.55);
   --nav-pill-hover: rgba(0, 0, 0, 0.8);
   --nav-pill-highlight: rgba(255, 255, 255, 0.2);
@@ -294,10 +294,19 @@ h1.h1-dash-content-profile{
     border: 1px solid var(--nav-glass-edge);
     border-radius: 6px;
 }
+.page-content{
+    justify-content: center;
+    align-items: center;
+}
+#members-container{
+    margin-bottom: 10px;
+}
 .members-grid{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    width: 70%;
     gap: 16px;
+    margin-bottom: 16px;
 }
 .members-list{
     display: flex;
@@ -310,6 +319,7 @@ h1.h1-dash-content-profile{
     align-items: center;
     text-align: center;
     text-decoration: none;
+    height: 175px;
     padding: 20px 12px;
     border-radius: 10px;
     background-color: var(--nav-glass-base);
@@ -322,6 +332,7 @@ h1.h1-dash-content-profile{
 .members-list .member-card{
     flex-direction: row;
     justify-content: flex-start;
+    height: 70px;
     gap: 14px;
     text-align: left;
     padding: 12px 16px;
@@ -338,8 +349,10 @@ h1.h1-dash-content-profile{
     height: 40px;
     margin-bottom: 0;
 }
-.member-card-name{
+span.member-card-name{
+    width: 110%;
     font-size: 11px;
+    word-wrap: break-word;
     color: var(--text-colour-contrast);
 }
 .member-card-messages{
@@ -616,6 +629,8 @@ footer{
     -webkit-backdrop-filter: blur(6px);
 }
 .modular-title{
+    width: 100%;
+    word-wrap: break-word;
     font-size: 20px;
     color: var(--text-colour-contrast);
     margin-bottom: 10px;
@@ -821,6 +836,11 @@ footer{
 .account-field-label{
     color: var(--nav-link-text-shadow);
 }
+.member-card-join{
+    color: var(--text-colour-contrast);
+    text-align: right;
+    margin-top: 5px;
+}
 .account-field-value{
     color: var(--text-colour-contrast);
     word-break: break-all;
@@ -830,6 +850,7 @@ footer{
 .account-card form{
     margin-top: 24px;
 }
+
 @media only screen and (max-width:1130px){
     .nav-link{
         border: none;
@@ -947,5 +968,9 @@ footer{
     nav label.brand a {
         font-size: 21px; 
         gap: 8px;
+    }
+    .members-grid{
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        width: 92%;
     }
 }

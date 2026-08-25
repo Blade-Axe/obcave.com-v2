@@ -53,7 +53,7 @@ module.exports = {
 
   /* ── Footer ─────────────────────────────────────────────────── */
   footer: {
-    text: '© obcave. All rights reserved.',
+    text: '© obcave. All rights reserved. 2018 -',
   },
   nav: {
     routes,
