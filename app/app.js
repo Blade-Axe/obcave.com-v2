@@ -33,6 +33,7 @@ app.use(configMiddleware);
 app.use('/', require('./routes/auth.routes'));
 app.use('/', require('./routes/members.routes'));
 app.use('/', require('./routes/pages.routes'));
+app.use('/', require('./routes/themes.routes'));
 
 // --- 404 ERROR HANDLING ---
 app.use((req, res, next) => {

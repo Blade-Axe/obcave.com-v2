@@ -28,7 +28,14 @@
                     <div class="account-menu-section">
                         <span class="account-menu-heading"><%= siteConfig.nav.text.theme %></span>
                         <div class="theme-swatches">
-                            <!-- Theme options go here later -->
+                            <% (typeof publishedThemes !== 'undefined' ? publishedThemes : []).forEach(function(theme) { %>
+                                <button type="button"
+                                    class="theme-swatch <%= (typeof activeTheme !== 'undefined' && activeTheme && activeTheme.id === theme.id) ? 'active' : '' %>"
+                                    data-theme-id="<%= theme.id %>"
+                                    style="background: <%= theme.colours['background-colour'] %>; box-shadow: inset 0 0 0 2px <%= theme.colours['nav-active-red'] %>;"
+                                    aria-label="Use the <%= theme.name %> theme"></button>
+                            <% }); %>
+                            <a href="<%= siteConfig.nav.routes.dashboard_themes %>" class="theme-swatch-more" title="More themes">+</a>
                         </div>
                     </div>
                 </div>

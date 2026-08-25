@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head'); %>
+<body>
+    <main class="index-content">
+        <div id="content-wrap">
+            <article id="content-body">
+                <%- include('partials/nav'); %>
+                <div id="dashboard-container">
+                    <div id="dashboard-grid">
+                        <%- include('partials/side_panel') %>
+                        <div class="dash-column">
+                            <div class="vertical" id="dash-content">
+                                <h1 class="h1-dash-content">Themes</h1>
+
+                                <% if (error) { %>
+                                    <div class="form-error-alert"><%= error %></div>
+                                <% } %>
+
+                                <div class="theme-gallery">
+                                    <% themes.forEach(theme => { %>
+                                        <div class="theme-card">
+                                            <div class="theme-preview" style="background: <%= theme.colours['background-colour'] %>;">
+                                                <span style="background: <%= theme.colours['nav-active-red'] %>;"></span>
+                                                <span style="background: <%= theme.colours['secondary'] %>;"></span>
+                                            </div>
+                                            <span class="theme-card-name"><%= theme.name %></span>
+                                            <span class="theme-card-creator"><%= theme.isBuiltIn ? 'Built-in' : ('by @' + (theme.creatorName || 'unknown')) %></span>
+                                            <button type="button" class="btn-primary" data-theme-id="<%= theme.id %>">Use this theme</button>
+                                            <% if (!theme.isBuiltIn && theme.creatorId === user.id) { %>
+                                                <a class="theme-edit-link" href="?edit=<%= theme.id %>">Edit</a>
+                                            <% } %>
+                                        </div>
+                                    <% }); %>
+                                </div>
+
+                                <h2 class="h3-sidebar"><%= editingTheme ? 'Edit theme' : 'Create a theme' %></h2>
+                                <form method="POST" action="/dashboard/themes" class="theme-form">
+                                    <% if (editingTheme) { %>
+                                        <input type="hidden" name="themeId" value="<%= editingTheme.id %>">
+                                    <% } %>
+                                    <div class="form-group">
+                                        <label for="name">Theme name</label>
+                                        <input type="text" id="name" name="name" maxlength="40" required value="<%= editingTheme ? editingTheme.name : '' %>">
+                                    </div>
+
+                                    <div class="theme-form-grid">
+                                        <% ['background-colour','text-colour-contrast','secondary','footer-background','nav-accent','nav-active-red'].forEach(function(key) {
+                                            const val = (prefillTheme && prefillTheme.colours && /^#[0-9a-fA-F]{6}$/.test(prefillTheme.colours[key])) ? prefillTheme.colours[key] : '';
+                                        %>
+                                            <div class="form-group">
+                                                <label for="<%= key %>"><%= key.replace(/-/g, ' ') %></label>
+                                                <input type="color" id="<%= key %>" name="<%= key %>" <% if (val) { %>value="<%= val %>"<% } %>>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="advanced">Advanced (one <code>variable: value</code> per line — this can override every colour on the site)</label>
+                                        <textarea id="advanced" name="advanced" rows="6" placeholder="nav-hover-glow: #ff8800"><% if (editingTheme) { %><%= Object.entries(editingTheme.colours)
+                                            .filter(pair => !['background-colour','text-colour-contrast','secondary','footer-background','nav-accent','nav-active-red'].includes(pair[0]))
+                                            .map(pair => pair[0] + ': ' + pair[1]).join('\n') %><% } %></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label><input type="checkbox" name="publish" value="1" <%= editingTheme && editingTheme.isPublished ? 'checked' : '' %>> Publish for everyone to use</label>
+                                    </div>
+
+                                    <button type="submit" class="btn-primary"><%= editingTheme ? 'Update theme' : 'Save theme' %></button>
+                                    <% if (editingTheme) { %>
+                                        <a href="<%= siteConfig.nav.routes.dashboard_themes %>" class="modular-alt-link">Cancel edit</a>
+                                    <% } %>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <%- include('partials/footer'); %>
+        </div>
+    </main>
+</body>
+</html>

@@ -29,7 +29,8 @@ const routes = {
   auth_sign_out: "/auth/sign-out",
   auth_discord: "/auth/discord",
   auth_complete_profile: "/auth/complete-profile",
-  dashboard: "/dashboard"
+  dashboard: "/dashboard",
+  dashboard_themes: "/dashboard/themes",
 }
 
 const pages = {

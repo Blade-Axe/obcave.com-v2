@@ -72,7 +72,9 @@ if (currentTime < 12) {
   greeting = 'Good Evening,';
 }
 
-greetingElement.textContent = `${greeting}`;
+if (greetingElement){
+  greetingElement.textContent = `${greeting}`;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const observer = new IntersectionObserver((entries) => {
@@ -91,5 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // Observe icons that are below the fold
   document.querySelectorAll('.icon:not(:nth-child(-n+5))').forEach(icon => {
       observer.observe(icon);
+  });
+
+  document.addEventListener('click', function (e) {
+    const target = e.target.closest('[data-theme-id]');
+    if (!target) return;
+    e.preventDefault();
+    fetch(`/themes/${target.dataset.themeId}/select`, {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'fetch' }
+    })
+      .then(() => window.location.reload())
+      .catch(() => {});
   });
 });
