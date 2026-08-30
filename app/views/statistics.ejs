@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head'); %>
+<body>
+    <main class="index-content">
+        <div id="content-wrap">
+            <article id="content-body">
+                <%- include('partials/nav'); %>
+                <div id="dashboard-container">
+                    <div id="dashboard-grid">
+                        <%- include('partials/side_panel') %>
+                        <div class="dash-column">
+
+                            <div class="vertical" id="dash-content">
+                                <h1 class="h1-dash-content">Server totals</h1>
+                                <div class="account-field">
+                                    <span class="account-field-label">Total messages (all time)</span>
+                                    <span class="account-field-value"><%= totals.grandTotal.toLocaleString() %></span>
+                                </div>
+                                <div class="account-field">
+                                    <span class="account-field-label">Member messages</span>
+                                    <span class="account-field-value"><%= totals.memberTotal.toLocaleString() %></span>
+                                </div>
+                                <div class="account-field">
+                                    <span class="account-field-label">Bot messages</span>
+                                    <span class="account-field-value"><%= totals.botTotal.toLocaleString() %></span>
+                                </div>
+                                <div class="account-field">
+                                    <span class="account-field-label">Messages this month</span>
+                                    <span class="account-field-value"><%= totals.messagesThisMonth.toLocaleString() %></span>
+                                </div>
+                            </div>
+
+                            <div class="vertical" id="dash-content">
+                                <h1 class="h1-dash-content">Activity</h1>
+                                <div class="stats-range-controls">
+                                    <button type="button" class="btn-primary range-btn" data-range="day">Today</button>
+                                    <button type="button" class="btn-primary range-btn" data-range="14">Last 14 days</button>
+                                    <button type="button" class="btn-primary range-btn active" data-range="30">Last 30 days</button>
+                                    <input type="date" id="range-start">
+                                    <input type="date" id="range-end">
+                                    <button type="button" class="btn-primary" id="range-custom-btn">Custom</button>
+                                </div>
+                                <canvas id="activity-chart" height="90"></canvas>
+                            </div>
+
+                            <div class="vertical" id="dash-content">
+                                <h1 class="h1-dash-content">Bot breakdown</h1>
+                                <% bots.forEach(bot => { %>
+                                    <div class="account-field">
+                                        <span class="account-field-label"><%= bot.displayName %></span>
+                                        <span class="account-field-value"><%= bot.totalCount.toLocaleString() %></span>
+                                    </div>
+                                <% }); %>
+                            </div>
+
+                            <div class="vertical" id="dash-content">
+                                <h1 class="h1-dash-content">Channels &amp; categories</h1>
+                                <% channelHistory.forEach(ch => { %>
+                                    <div class="account-field <%= ch.deletedAt ? 'channel-deleted' : '' %>">
+                                        <span class="account-field-label">
+                                            <%= ch.type === 'category' ? '📁' : '#' %> <%= ch.name %>
+                                        </span>
+                                        <span class="account-field-value">
+                                            <%= new Date(ch.createdAt).toLocaleDateString() %>
+                                            <% if (ch.deletedAt) { %>
+                                                &ndash; deleted <%= new Date(ch.deletedAt).toLocaleDateString() %>
+                                            <% } %>
+                                        </span>
+                                    </div>
+                                <% }); %>
+                            </div>
+
+                            <div class="vertical" id="dash-content">
+                                <h1 class="h1-dash-content">Member rankings</h1>
+                                <% rankings.forEach((member, index) => { %>
+                                    <div class="account-field ranking-row" data-user-id="<%= member.id %>">
+                                        <span class="account-field-label">#<%= index + 1 %> @<%= member.discordUsername %></span>
+                                        <span class="account-field-value"><%= member.combinedTotal.toLocaleString() %></span>
+                                    </div>
+                                    <div class="alt-breakdown" id="alt-breakdown-<%= member.id %>" hidden></div>
+                                <% }); %>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <%- include('partials/footer'); %>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    (function () {
+        const ctx = document.getElementById('activity-chart');
+        let chart = null;
+
+        function render(labels, data) {
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{ label: 'Messages', data, tension: 0.25 }],
+                },
+                options: { scales: { y: { beginAtZero: true } } },
+            });
+        }
+
+        async function loadRange(params) {
+            const query = new URLSearchParams(params).toString();
+            const res = await fetch(`/dashboard/statistics/activity?${query}`);
+            const series = await res.json();
+            render(series.map(p => p.bucket), series.map(p => p.count));
+        }
+
+        document.querySelectorAll('.range-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.range-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                loadRange({ range: btn.dataset.range });
+            });
+        });
+
+        document.getElementById('range-custom-btn').addEventListener('click', () => {
+            const start = document.getElementById('range-start').value;
+            const end = document.getElementById('range-end').value;
+            if (!start || !end) return;
+            document.querySelectorAll('.range-btn').forEach(b => b.classList.remove('active'));
+            loadRange({ start, end });
+        });
+
+        // Expand a member's alt breakdown on click, loaded on demand.
+        document.querySelectorAll('.ranking-row').forEach(row => {
+            row.addEventListener('click', async () => {
+                const userId = row.dataset.userId;
+                const panel = document.getElementById(`alt-breakdown-${userId}`);
+                if (!panel.hidden) { panel.hidden = true; return; }
+
+                if (!panel.dataset.loaded) {
+                    const res = await fetch(`/dashboard/statistics/breakdown/${userId}`);
+                    const breakdown = await res.json();
+                    panel.innerHTML = breakdown.map(acc => `
+                        <div class="account-field">
+                            <span class="account-field-label">${acc.displayName}</span>
+                            <span class="account-field-value">${acc.count.toLocaleString()} (${acc.percent}%)</span>
+                        </div>
+                    `).join('');
+                    panel.dataset.loaded = '1';
+                }
+                panel.hidden = false;
+            });
+        });
+
+        loadRange({ range: '30' });
+    })();
+    </script>
+</body>
+</html>

@@ -25,6 +25,13 @@
                             </div>
                             <div class="vertical" id="dash-content">
                                 <div class="profile-details">
+                                    <% if (typeof linked !== 'undefined' && linked) { %>
+                                        <div class="form-success-alert">Alt account linked successfully.</div>
+                                    <% } %>
+                                    <% if (typeof linkError !== 'undefined' && linkError) { %>
+                                        <div class="form-error-alert"><%= linkError %></div>
+                                    <% } %>
+                                    <a href="<%= siteConfig.nav.routes.account_link_discord %>" class="btn-primary btn-link-alt">Link an alt account</a>
                                     <div class="account-field">
                                         <span class="account-field-label">Email</span>
                                         <span class="account-field-value"><%= user.email %></span>

@@ -8,10 +8,13 @@ const configMiddleware = require('./middleware/config.middleware');
 const { requireAuth, requireAdmin } = require('./middleware/auth.middleware');
 const app = express();
 const bcrypt = require('bcrypt');
+const discordListener = require('./services/discord-listener.service');
 
 // Database
 const db = require('./db/db.config.js');
 const siteConfig = require('./config/site.config');
+
+discordListener.start();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -33,6 +36,9 @@ app.use(configMiddleware);
 app.use('/', require('./routes/auth.routes'));
 app.use('/', require('./routes/members.routes'));
 app.use('/', require('./routes/pages.routes'));
+app.use('/', require('./routes/account.routes'));
+app.use('/', require('./routes/stats.routes'));
+app.use('/', require('./routes/obyear.routes'));
 app.use('/', require('./routes/themes.routes'));
 
 // --- 404 ERROR HANDLING ---

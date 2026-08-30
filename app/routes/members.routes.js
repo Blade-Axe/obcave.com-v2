@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/db.config.js');
+const activityService = require('../services/activity.service');
 const { rejects } = require('node:assert');
 const { resolve } = require('node:dns');
 const { title } = require('node:process');
@@ -21,15 +22,19 @@ const SORT_OPTIONS = {
     messages_desc: 'messageTotal DESC',
     messages_asc: 'messageTotal ASC',
 };
+const VALID_SORTS = new Set([...Object.keys(SORT_OPTIONS), 'active']);
 
 router.get('/members', async (req, res) => {
-    const sort = SORT_OPTIONS[req.query.sort] ? req.query.sort : 'joined';
+    const sort = VALID_SORTS.has(req.query.sort) ? req.query.sort : 'joined';
 
-    const members = await dbAll(
-        `SELECT id, uuid, discordUsername, discordAvatar, joinOrder, messageTotal, altAccountCount
-        FROM users
-        ORDER BY ${SORT_OPTIONS[sort]}` 
-    );
+    const members = sort === 'active'
+        ? await activityService.getMostActive(30)
+        : await dbAll(
+            `SELECT id, uuid, discordUsername, discordAvatar, joinOrder, messageTotal, altAccountCount
+            FROM users
+            ORDER BY ${SORT_OPTIONS[sort]}`
+        );
+
     res.render('members', {title: 'obcave - members', members, sort});
 });
 

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head'); %>
+<body>
+    <main class="index-content">
+        <div id="content-wrap">
+            <article id="content-body">
+                <%- include('partials/nav'); %>
+                <div id="dashboard-container">
+                    <div id="dashboard-grid">
+                        <%- include('partials/side_panel') %>
+                        <div class="dash-column">
+
+                            <div class="vertical" id="dash-content">
+                                <h1 class="h1-dash-content">ob Year <%= current.obYearNumber %></h1>
+                                <div class="account-field">
+                                    <span class="account-field-label">Year elapsed</span>
+                                    <span class="account-field-value"><%= current.percentElapsed %>%</span>
+                                </div>
+                                <div class="account-field">
+                                    <span class="account-field-label">Days until next ob Year</span>
+                                    <span class="account-field-value"><%= current.daysUntilAnniversary %></span>
+                                </div>
+                            </div>
+
+                            <div class="vertical" id="dash-content">
+                                <h1 class="h1-dash-content">Year over year</h1>
+                                <% history.forEach(y => { %>
+                                    <div class="account-field">
+                                        <span class="account-field-label">ob Year <%= y.obYearNumber %></span>
+                                        <span class="account-field-value">
+                                            <%= y.tracked ? y.count.toLocaleString() + ' messages' : 'No data' %>
+                                        </span>
+                                    </div>
+                                <% }); %>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <%- include('partials/footer'); %>
+        </div>
+    </main>
+</body>
+</html>

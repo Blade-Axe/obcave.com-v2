@@ -14,6 +14,7 @@
   "dependencies": {
     "@hackernoon/pixel-icon-library": "^1.1.0",
     "bcrypt": "^6.0.0",
+    "discord.js": "^14.27.0",
     "dotenv": "^17.4.2",
     "ejs": "^6.0.1",
     "express": "^5.2.1",
@@ -21,6 +22,8 @@
     "multer": "^2.1.1",
     "node": "^24.16.0",
     "nodemon": "^3.1.14",
-    "sqlite3": "^6.0.1"
+    "sqlite3": "^6.0.1",
+    "stream-chain": "^2.2.5",
+    "stream-json": "^1.8.0"
   }
 }

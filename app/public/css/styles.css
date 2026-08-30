@@ -830,7 +830,25 @@ footer{
     text-decoration: none;
     font-size: 12px;
 }
-
+.form-success-alert{
+    font-size: 11px;
+    color: var(--text-colour-contrast);
+    background-color: #1c7c3c;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+.btn-link-alt{
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    margin-top: 16px;
+}
+.channel-deleted{
+    opacity: 0.55;
+    text-decoration: line-through;
+}
 .theme-gallery{
     display: flex;
     flex-wrap: wrap;

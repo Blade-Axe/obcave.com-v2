@@ -29,8 +29,11 @@ const routes = {
   auth_sign_out: "/auth/sign-out",
   auth_discord: "/auth/discord",
   auth_complete_profile: "/auth/complete-profile",
+  account_link_discord: "/account/link-discord",
   dashboard: "/dashboard",
   dashboard_themes: "/dashboard/themes",
+  statistics: "/dashboard/stats",
+  ob_year: "/dashboard/ob-year",
 }
 
 const pages = {
@@ -117,6 +120,9 @@ module.exports = {
       discord_oauth: 'Something went wrong talking to Discord. Please try again.',
       discord_must_be_member: 'You must be an obmember to sign up.',
       discord_no_longer_in_server: 'Your linked Discord account is no longer in the server.',
+      alt_link_self: "You can't link your own main account as an alt.",
+      alt_is_main_account: "That Discord account is already registered as its own obID.",
+      alt_already_linked: "That Discord account is already linked to a different obID.",
     }
   },
   index: {
@@ -131,7 +137,8 @@ module.exports = {
     your_oblogs: 'Your oblogs',
     your_notes: 'Your Notes',
     your_awards: 'Your Awards',
-    global_stats: 'Global Stats',
+    statistics: 'Global Stats',
+    ob_year: 'ob Year',
     edit_privacy: 'Edit Privacy',
     view_profile: 'View Profile',
     admin_edit_obstitution: 'Edit The obstitution',
@@ -139,5 +146,10 @@ module.exports = {
     admin_edit_privacy_policy: 'Edit Privacy Policy',
     admin_manage_awards: 'Manage Awards',
     admin_manage_users: 'Manage Users',
+  },
+  obYear: {
+    epoch: '2018-07-05', // Ob Year 1 start date. Confirm this is correct.
+    anniversaryMonth: 7,
+    anniversaryDay: 5,
   },
 }

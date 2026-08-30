@@ -20,6 +20,7 @@
                             <label for="sort-select">Sort by</label>
                             <select id="sort-select" name="sort" onchange="this.form.submit()">
                                 <option value="joined" <%= sort === 'joined' ? 'selected' : '' %>>Join order</option>
+                                <option value="active" <%= sort === 'active' ? 'selected' : '' %>>Most active (30 days)</option>
                                 <option value="messages_desc" <%= sort === 'messages_desc' ? 'selected' : '' %>>Messages: most first</option>
                                 <option value="messages_asc" <%= sort === 'messages_asc' ? 'selected' : '' %>>Messages: least first</option>
                             </select>
@@ -34,6 +35,9 @@
                                 <span class="member-card-join">#<%= member.joinOrder %></span>
                                 <% if (typeof user !== 'undefined' && user) { %>
                                     <span class="member-card-messages"><%= member.messageTotal.toLocaleString() %> messages</span>
+                                    <% if (sort === 'active') { %>
+                                        <span class="member-card-messages"><%= member.activityCount.toLocaleString() %> messages (30d)</span>
+                                    <% } %>
                                     <% if (member.altAccountCount > 1) {
                                         const altCount = member.altAccountCount - 1;
                                         const pct = Math.round((altCount / member.altAccountCount) * 100);

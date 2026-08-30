@@ -53,6 +53,39 @@ router.get('/auth/discord/callback', async (req, res) => {
     const tokenData = await discordService.exchangeCode(code);
     const discordUser = await discordService.getDiscordUser(tokenData.access_token);
 
+    // Branch here if this OAuth run started from "link an alt
+    // account", not from sign-in/sign-up. An alt attaches to an
+    // existing user. It never creates a new one, and it does not
+    // touch the guild-membership check below.
+    if (req.session.linkAltUserId) {
+      const mainUserId = req.session.linkAltUserId;
+      delete req.session.linkAltUserId;
+
+      const mainUser = await dbGet('SELECT discordId FROM users WHERE id = ?', [mainUserId]);
+      if (!mainUser) return res.redirect(routes.dashboard);
+
+      if (discordUser.id === mainUser.discordId) {
+        return res.redirect(`${routes.dashboard}?linkError=${encodeURIComponent(siteConfig.auth.error.alt_link_self)}`);
+      }
+
+      const clash = await dbGet('SELECT id FROM users WHERE discordId = ?', [discordUser.id]);
+      if (clash) {
+        return res.redirect(`${routes.dashboard}?linkError=${encodeURIComponent(siteConfig.auth.error.alt_is_main_account)}`);
+      }
+
+      const existingLink = await dbGet('SELECT userId FROM discord_alt_ids WHERE altDiscordId = ?', [discordUser.id]);
+      if (existingLink && existingLink.userId !== mainUserId) {
+        return res.redirect(`${routes.dashboard}?linkError=${encodeURIComponent(siteConfig.auth.error.alt_already_linked)}`);
+      }
+
+      if (!existingLink) {
+        await dbRun('INSERT INTO discord_alt_ids (altDiscordId, userId) VALUES (?, ?)', [discordUser.id, mainUserId]);
+        const count = await dbGet('SELECT COUNT(*) AS n FROM discord_alt_ids WHERE userId = ?', [mainUserId]);
+        await dbRun('UPDATE users SET altAccountCount = ? WHERE id = ?', [(count.n || 0) + 1, mainUserId]);
+      }
+
+      return res.redirect(`${routes.dashboard}?linked=1`);
+    }
     // Guild membership check — required before any dashboard is
     // touched or created. No DB write happens if this fails.
     const member = await discordService.getGuildMember(discordUser.id);
@@ -218,7 +251,12 @@ router.post('/auth/sign-in', async (req, res) => {
 });
 
 router.get('/dashboard', requireAuth, (req, res) => {
-  res.render('dashboard', { title: 'obcave - dashboard', user: req.session.user });
+  res.render('dashboard', {
+    title: 'obcave - dashboard',
+    user: req.session.user,
+    linked: req.query.linked === '1',
+    linkError: req.query.linkError || null,
+  });
 });
 
 // ── Sign-out ─────────────────────────────────────────────────────

@@ -30,6 +30,44 @@ db.serialize(() => {
         FOREIGN KEY(userId) REFERENCES users(id)
     )`);
 
+    db.run(`CREATE TABLE IF NOT EXISTS message_counts (
+        discordId TEXT PRIMARY KEY,
+        displayName TEXT,
+        isBot INTEGER DEFAULT 0,
+        totalCount INTEGER DEFAULT 0,
+        lastUpdated TEXT
+    )`);
+
+    db.run(`CREATE TABLE IF NOT EXISTS messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        discordId TEXT NOT NULL,
+        channelId TEXT,
+        sentAt INTEGER NOT NULL,
+        isBot INTEGER DEFAULT 0,
+        sourceMessageId TEXT UNIQUE
+    )`);
+    db.run(`CREATE INDEX IF NOT EXISTS idx_messages_discordId_sentAt ON messages (discordId, sentAt)`);
+    db.run(`CREATE INDEX IF NOT EXISTS idx_messages_sentAt ON messages (sentAt)`);
+
+    // account_owners: maps every known Discord ID (a main account's own
+    // ID, or any linked alt ID) to the userId of the main account that
+    // owns it. Anything joining `messages` by real-world person, rather
+    // than by raw discordId, should join through this view.
+    db.run(`CREATE VIEW IF NOT EXISTS account_owners AS
+        SELECT discordId AS discordId, id AS userId FROM users WHERE discordId IS NOT NULL
+        UNION ALL
+        SELECT altDiscordId AS discordId, userId FROM discord_alt_ids
+    `);
+
+    db.run(`CREATE TABLE IF NOT EXISTS channels (
+        discordId TEXT PRIMARY KEY,
+        name TEXT,
+        type TEXT,
+        parentId TEXT,
+        createdAt INTEGER,
+        deletedAt INTEGER
+    )`);
+
     db.run(`CREATE TABLE IF NOT EXISTS themes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
